@@ -1,12 +1,22 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import bcrypt from 'bcryptjs';
-import { User } from '../entity/User';
-import { generateToken } from '../utils/jwt';
+import { User } from '../../entity/User';
+import { generateToken } from '../../utils/jwt';
+import {isValidEmail, isValidPassword} from "./validators";
 
 export const createUser = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password, dateOfBirth, phoneNumber } = req.body;
     const userRepository = getRepository(User);
+
+    // Validate email and password
+    if (!isValidEmail(email)) {
+        return res.status(400).send('Invalid email format');
+    }
+
+    if (!isValidPassword(password)) {
+        return res.status(400).send('Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character');
+    }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
