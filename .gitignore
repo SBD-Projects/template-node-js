@@ -128,3 +128,16 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+/database.sqlite
+/package-lock.json
+/node_modules
+/.git
+/.idea
+/LICENSE
+database.sqlite
+package-lock.json
+node_modules
+.git
+.idea
+LICENSE
